@@ -254,20 +254,174 @@ public class BinarySearch {
         return -1;
     }
 
-    private static void test1(int[] array, int target) {
+    private static int test1(int[] array, int target) {
         int i = 0;
         int j = array.length - 1;
         while (i <= j) {
-            int m = (i + j) / 2;
+            int m = (i + j) >>> 1;
             if (target < array[m]) {
                 j = m - 1;
             } else if (target > array[m]) {
                 i = m + 1;
             } else {
                 System.out.println("找到..");
-                break;
+                return m;
             }
         }
+        return -1;
+    }
+
+    private static int test3(int[] array, int target) {
+        int i = 0;
+        int j = array.length - 1;
+        int temp = -1;
+        while (i <= j) {
+            int m = (i + j) >>> 1;
+            if (target < array[m]) {
+                j = m - 1;
+            } else if (target > array[m]) {
+                i = m + 1;
+            } else {
+                temp = m;
+                j = m - 1;
+            }
+        }
+        return temp;
+    }
+
+    private static int test4(int[] array, int target) {
+        int i = 0;
+        int j = array.length - 1;
+        int temp = -1;
+        while (i <= j) {
+            int m = (i + j) >>> 1;
+            if (target < array[m]) {
+                j = m - 1;
+            } else if (target > array[m]) {
+                i = m + 1;
+            } else {
+                temp = m;
+                i = m + 1;
+            }
+        }
+        return temp;
+    }
+
+    /**
+     * 力扣704
+     *
+     * @param array
+     * @param target
+     * @return
+     */
+    private static int testCode704(int[] array, int target) {
+        int i = 0;
+        int j = array.length - 1;
+        int temp = -1;
+        while (i <= j) {
+            int m = (i + j) >>> 1;
+            if (target < array[m]) {
+                j = m - 1;
+            } else if (target > array[m]) {
+                i = m + 1;
+            } else {
+                temp = m;
+                i = m + 1;
+            }
+        }
+        return temp;
+    }
+
+    /**
+     * 力扣32
+     *
+     * @param array
+     * @param target
+     * @return
+     */
+    private static int[] testCode32(int[] array, int target) {
+        int i1 = 0, i2 = 0;
+        int j1 = array.length - 1, j2 = array.length - 1;
+        int[] result;
+        int leftCandidate = -1, rightCandidate = -1;
+
+        while (i1 <= j1) {
+            int m = (i1 + j1) >>> 1;
+            if (target < array[m]) {
+                j1 = m - 1;
+            } else if (target > array[m]) {
+                i1 = m + 1;
+            } else {
+                leftCandidate = m;
+                j1 = m - 1;
+            }
+        }
+
+
+        while (i2 <= j2) {
+            int m = (i2 + j2) >>> 1;
+            if (target < array[m]) {
+                j2 = m - 1;
+            } else if (target > array[m]) {
+                i2 = m + 1;
+            } else {
+                rightCandidate = m;
+                i2 = m + 1;
+            }
+        }
+
+        result = new int[]{leftCandidate, rightCandidate};
+        return result;
+    }
+
+    /**
+     * 力扣32 -优化
+     *
+     * @param array
+     * @param target
+     * @return
+     */
+    private static int[] testCode32Optimize(int[] array, int target) {
+        int left = testCode32Left(array, target);
+        if (-1 == left) {
+            return new int[]{-1, -1};
+        } else {
+            return new int[]{left, testCode32Right(array, target)};
+        }
+    }
+
+    private static int testCode32Left(int[] array, int target) {
+        int i = 0, j = array.length - 1;
+        int candidate = -1;
+        while (i <= j) {
+            int m = (i + j) >>> 1;
+            if (target < array[m]) {
+                j = m - 1;
+            } else if (target > array[m]) {
+                i = m + 1;
+            } else {
+                candidate = m;
+                j = m - 1;
+            }
+        }
+        return candidate;
+    }
+
+    private static int testCode32Right(int[] array, int target) {
+        int i = 0, j = array.length - 1;
+        int candidate = -1;
+        while (i <= j) {
+            int m = (i + j) >>> 1;
+            if (target < array[m]) {
+                j = m - 1;
+            } else if (target > array[m]) {
+                i = m + 1;
+            } else {
+                candidate = m;
+                i = m + 1;
+            }
+        }
+        return candidate;
     }
 
 

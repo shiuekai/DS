@@ -125,6 +125,7 @@ public class DynamicArray implements Iterable<Integer> {
      * @return stream 流
      */
     public IntStream stream() {
+        //不用array本身是因为防止无效部分也被遍历
         return IntStream.of(Arrays.copyOfRange(array, 0, size));
     }
 }
