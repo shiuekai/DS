@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * @since 1.0
  */
 public class PracticeSinglyLinkedListSentinel<T> implements Iterable<T> {
-    private Node head = null;
+    private Node head = new Node(666, null);
 
     @Override
     public Iterator<T> iterator() {
@@ -32,7 +32,7 @@ public class PracticeSinglyLinkedListSentinel<T> implements Iterable<T> {
     }
 
     private class MyIterator implements Iterator<T> {
-        Node<T> p = head;
+        Node<T> p = head.next;
 
         @Override
         public boolean hasNext() {
@@ -59,7 +59,8 @@ public class PracticeSinglyLinkedListSentinel<T> implements Iterable<T> {
     }
 
     public void addFirst(T value) {
-        head = new Node(value, head);
+//        head = new Node(value, head);
+        insert(0, value);
     }
 
     public void loop1(Consumer<T> consumer) {
@@ -71,24 +72,15 @@ public class PracticeSinglyLinkedListSentinel<T> implements Iterable<T> {
     }
 
     private Node<T> findLast() {
-        if (head == null) {
-            return null;
+        Node p = head;
+        while (p.next != null) {
+            p = p.next;
         }
-        Node<T> last = head;
-        while (last.next != null) {
-            last = last.next;
-        }
-        return last;
+        return p;
     }
 
     public void addLast(T value) {
         Node<T> last = findLast();
-        if (last == null) {
-            //链表为空
-            addFirst(value);
-            return;
-        }
-
         last.next = new Node(value, null);
     }
 
@@ -103,7 +95,7 @@ public class PracticeSinglyLinkedListSentinel<T> implements Iterable<T> {
     public Node find(int index) {
         int i;
         Node p;
-        for (i = 0, p = head; p != null; p = p.next, i++) {
+        for (i = -1, p = head; p != null; p = p.next, i++) {
             if (i == index) {
                 return p;
             }
@@ -112,11 +104,6 @@ public class PracticeSinglyLinkedListSentinel<T> implements Iterable<T> {
     }
 
     public void insert(int index, T value) {
-        if (index == 0) {
-            addFirst(value);
-            return;
-        }
-
         Node pre = find(index - 1);
         if (null == pre) {
             throw new IllegalArgumentException(String.format("index [%d] 不合法%n", index));
@@ -125,24 +112,16 @@ public class PracticeSinglyLinkedListSentinel<T> implements Iterable<T> {
     }
 
     public void removeFirst() {
-        if(null == head){
-            throw new IllegalArgumentException(String.format("index [%d] 不合法%n", 0));
-        }
-        head = head.next;
+        remove(0);
     }
 
     public void remove(int index) {
-        if (0 == index) {
-            removeFirst();
-            return;
-        }
-
         Node pre = find(index - 1);
         if (null == pre) {
             throw new IllegalArgumentException(String.format("index [%d] 不合法%n", index));
         }
 
-        if (null == pre.next){
+        if (null == pre.next) {
             throw new IllegalArgumentException(String.format("index [%d] 不合法%n", index));
         }
 
@@ -151,25 +130,18 @@ public class PracticeSinglyLinkedListSentinel<T> implements Iterable<T> {
 
 
     public static void main(String[] args) {
-        PracticeSinglyLinkedListSentinel<String> list1 = new PracticeSinglyLinkedListSentinel<>();
-        list1.addFirst("1");
-//        PracticeSinglyLinkedList<String> list2 = new PracticeSinglyLinkedList<>();
-//        list2.addFirst("2");
-        list1.addFirst("3");
-        list1.addFirst("4");
-//        list.addFirst("4");
-//        list.loop1((val) -> {
-//            System.out.println(val);
-//        });
-//        list.addLast("0");
+        PracticeSinglyLinkedListSentinel<Integer> list = new PracticeSinglyLinkedListSentinel<>();
+        list.addFirst(1);
+        list.addFirst(2);
+        list.addFirst(3);
+        list.addFirst(4);
+        list.remove(0);
+        list.remove(2);
+        list.remove(0);
+        list.removeFirst();
+//        list.remove(0);
 
-//        for (String s : list2) {
-//            System.out.println(s);
-//        }
-
-        list1.insert(6, "2");
-
-        for (String s : list1) {
+        for (Integer s : list) {
             System.out.println(s);
         }
     }

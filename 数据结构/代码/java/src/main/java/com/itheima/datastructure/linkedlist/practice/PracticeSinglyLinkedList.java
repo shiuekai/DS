@@ -9,7 +9,22 @@ import java.util.function.Consumer;
  * @since 1.0
  */
 public class PracticeSinglyLinkedList<T> implements Iterable<T> {
-    private Node head = null;
+    private Node<T> head = null;
+
+    public void loop3(Consumer<T> before, Consumer<T> after) {
+        recursion(head, before, after);
+    }
+
+    private void recursion(Node<T> curr, Consumer<T> before, Consumer<T> after) {
+        if (null == curr) {
+            return;
+        }
+//        System.out.println("before:" + curr.value);
+        before.accept(curr.value);
+        recursion(curr.next, before, after);
+        after.accept(curr.value);
+//        System.out.println("after:" + curr.value);
+    }
 
     @Override
     public Iterator<T> iterator() {
@@ -125,7 +140,7 @@ public class PracticeSinglyLinkedList<T> implements Iterable<T> {
     }
 
     public void removeFirst() {
-        if(null == head){
+        if (null == head) {
             throw new IllegalArgumentException(String.format("index [%d] 不合法%n", 0));
         }
         head = head.next;
@@ -142,7 +157,7 @@ public class PracticeSinglyLinkedList<T> implements Iterable<T> {
             throw new IllegalArgumentException(String.format("index [%d] 不合法%n", index));
         }
 
-        if (null == pre.next){
+        if (null == pre.next) {
             throw new IllegalArgumentException(String.format("index [%d] 不合法%n", index));
         }
 
@@ -152,11 +167,12 @@ public class PracticeSinglyLinkedList<T> implements Iterable<T> {
 
     public static void main(String[] args) {
         PracticeSinglyLinkedList<String> list1 = new PracticeSinglyLinkedList<>();
-        list1.addFirst("1");
+        list1.addFirst("4");
 //        PracticeSinglyLinkedList<String> list2 = new PracticeSinglyLinkedList<>();
 //        list2.addFirst("2");
         list1.addFirst("3");
-        list1.addFirst("4");
+        list1.addFirst("2");
+        list1.addFirst("1");
 //        list.addFirst("4");
 //        list.loop1((val) -> {
 //            System.out.println(val);
@@ -167,10 +183,8 @@ public class PracticeSinglyLinkedList<T> implements Iterable<T> {
 //            System.out.println(s);
 //        }
 
-        list1.insert(6, "2");
+//        list1.insert(6, "2");
 
-        for (String s : list1) {
-            System.out.println(s);
-        }
+        list1.loop3((a)->System.out.println(a),(a)->System.out.println(a));
     }
 }
