@@ -79,14 +79,81 @@ public class PracticeRecursion {
         bubbleSort(arr, arr.length - 1);
     }
 
+    /**
+     * low 代表未排序范围开始索引
+     *
+     * @param arr
+     * @param low
+     */
     public static void insertSort(int[] arr, int low) {
+        if (arr.length == low) {
+            return;
+        }
 
+        int t = arr[low];
+        //代表已排序范围的结束索引
+        int i = low - 1;
+
+        //找到比插入值小的值才退出循环
+        while (i >= 0 && arr[i] > t) {
+            arr[i + 1] = arr[i];
+            i--;
+        }
+
+        arr[i + 1] = t;
+        insertSort(arr, low + 1);
+    }
+
+
+    public static void insertionSort(int[] arr, int start, int end) {
+        if (start >= end) {  //递归终止条件
+            return;
+        }
+        insertionSort(arr, start, end - 1);  //递归排序start到end-1之间的元素
+        int x = arr[end];                   //将最后一个元素取出来
+        int j = end - 1;                     //从最后一个元素的前一个元素开始向前遍历
+        while (j >= start && arr[j] > x) {   //如果j大于等于start并且j所在的元素比x大
+            arr[j + 1] = arr[j];            //将j所在元素后移一位
+            j--;                            //继续往前找
+        }
+        arr[j + 1] = x;                     //将最后一个元素插入到正确的位置
+    }
+
+
+    /**
+     * low 代表未排序范围开始索引
+     * high 代表未排序范围结束索引
+     * low = 3  high = 5
+     * [7,6,5,4,3,2,1]
+     * [7,6,5,2,3,4,1]
+     *
+     * @param arr
+     * @param low
+     */
+    public static void insertSort(int[] arr, int low, int high) {
+        if (high == low) {
+            return;
+        }
+
+        int t = arr[low + 1];
+        //代表已排序范围的结束索引
+        int i = low;
+
+        //找到比插入值小的值才退出循环
+        while (i >= low && arr[i] > t) {
+            arr[i + 1] = arr[i];
+            i--;
+        }
+
+        arr[i + 1] = t;
+        insertSort(arr, low + 1, high);
     }
 
     public static void main(String[] args) {
 
         int[] arr = new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-        sort(arr);
+//        sort(arr);
+        insertionSort(arr, 5,7);
         System.out.println(Arrays.toString(arr));
 
 //        System.out.println(count(5));
