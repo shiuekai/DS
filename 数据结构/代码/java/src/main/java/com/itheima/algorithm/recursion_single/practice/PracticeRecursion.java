@@ -139,31 +139,47 @@ public class PracticeRecursion {
         //代表已排序范围的结束索引
         int i = low;
 
+        //6 5 4
         //找到比插入值小的值才退出循环
         while (i >= low && arr[i] > t) {
             arr[i + 1] = arr[i];
             i--;
         }
 
+        //5 6 4
         arr[i + 1] = t;
         insertSort(arr, low + 1, high);
+    }
+
+    public static void practiceInsertSort(int[] arr, int low) {
+        if (low == arr.length) {
+            return;
+        }
+
+        int i = low - 1;
+        int t = arr[low];
+
+        while (i >= 0 && t < arr[i]) {
+            arr[i + 1] = arr[i];
+            i--;
+        }
+
+        if (i + 1 != low) {
+            arr[i + 1] = t;
+        }
+
+        practiceInsertSort(arr, low + 1);
     }
 
     public static void main(String[] args) {
 
         int[] arr = new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-//        sort(arr);
-        insertionSort(arr, 5,7);
+
+//        practiceInsertSort(arr,1);
+        insertSort(arr,3,5);
         System.out.println(Arrays.toString(arr));
 
-//        System.out.println(count(5));
 
-//        String str = "abcdefg";
-//        reversePrintStr1("abcdefg",0);
-//        reversePrintStr2(str, str.length() - 1);
-
-//        int[] arr = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-//        find(arr, 0, arr.length - 1, 12);
 
     }
 }
