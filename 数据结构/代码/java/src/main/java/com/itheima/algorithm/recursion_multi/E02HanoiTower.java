@@ -32,15 +32,25 @@ public class E02HanoiTower {
         if (n == 0) {
             return;
         }
+        System.out.println("n=" + n + "a:" + a + "b:" + b + "c:" + c);
         move(n - 1, a, c, b);   // 把 n-1 个盘子由a,借c,移至b
         c.addLast(a.removeLast()); // 把最后的盘子由 a 移至 c
 //        print();
         move(n - 1, b, a, c);   // 把 n-1 个盘子由b,借a,移至c
     }
 
+    public static void hanoi(int n, LinkedList<Integer> from, LinkedList<Integer> help, LinkedList<Integer> to) {
+        if (n == 0) {
+            return;
+        }
+        hanoi(n - 1, from, to, help);
+        to.addLast(from.removeLast());
+        hanoi(n - 1, help, from, to);
+
+    }
+
+
     // T(n) = 2T(n-1) + c,  O(2^64)
-
-
     public static void main(String[] args) {
         StopWatch sw = new StopWatch();
         int n = 1;
@@ -52,6 +62,8 @@ public class E02HanoiTower {
         print();
         System.out.println(sw.prettyPrint());
     }
+
+
 
     private static void print() {
         System.out.println("----------------");

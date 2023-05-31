@@ -56,7 +56,9 @@ public class E01Leetcode206 {
             return p; // 最后节点
         }
         ListNode last = reverseList3(p.next);
+        //让后一个结点的next指向上一个结点(在此方法中即为当前结点),此时形成了一个双向链表
         p.next.next = p;
+        //为防止陷入死循环(双向链表),先将当前结点的next置位null
         p.next = null;
         return last;
     }
@@ -93,6 +95,15 @@ public class E01Leetcode206 {
         return n1;
     }
 
+    public static ListNode reverse(ListNode node){
+
+        while(node.next == null){
+
+        }
+        return null;
+    }
+
+
     public static void main(String[] args) {
         ListNode o5 = new ListNode(5, null);
         ListNode o4 = new ListNode(4, o5);
@@ -100,7 +111,7 @@ public class E01Leetcode206 {
         ListNode o2 = new ListNode(2, o3);
         ListNode o1 = new ListNode(1, o2);
         System.out.println(o1);
-        ListNode n1 = new E01Leetcode206().reverseList(o1);
+        ListNode n1 = new E01Leetcode206().reverseList1(o1);
         System.out.println(n1);
     }
 
